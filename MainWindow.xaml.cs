@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Paint_Lab.Interfaces;
+using Paint_Lab.ShapesClasses;
 
 namespace Paint_Lab
 {
@@ -50,63 +51,26 @@ namespace Paint_Lab
             CanvasWindow.Children.Clear();
             if (LineButton.IsChecked != null && (bool) LineButton.IsChecked)
             {
-                Line line = new Line
-                {
-                    X1 = 50,
-                    Y1 = 50,
-                    X2 = 100,
-                    Y2 = 100,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Fill = ColorPickerFill.Background,
-                    Stroke = ColorPickerBorder.Background,
-                    StrokeThickness = ThicknessSlider.Value,
-                };
-                CanvasWindow.Children.Add(line);
+                IShape shape = new ShapesClasses.Line();
+                shape.Draw(CanvasWindow,ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value);
             }
 
             if (EllipseButton.IsChecked != null && (bool) EllipseButton.IsChecked)
             {
-                Ellipse ellipse = new Ellipse
-                {
-                    Width = 200,
-                    Height = 100,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Fill = ColorPickerFill.Background,
-                    Stroke = ColorPickerBorder.Background,
-                    StrokeThickness = ThicknessSlider.Value,
-                };
-                CanvasWindow.Children.Add(ellipse);
+                IShape shape = new ShapesClasses.Ellipse();
+                shape.Draw(CanvasWindow,ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value);
             }
 
             if (RectangleButton.IsChecked != null && (bool) RectangleButton.IsChecked)
             {
-                Rectangle rectangle = new Rectangle
-                {
-                    Width = 200,
-                    Height = 100,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Fill = ColorPickerFill.Background,
-                    Stroke = ColorPickerBorder.Background,
-                    StrokeThickness = ThicknessSlider.Value,
-                };
-                CanvasWindow.Children.Add(rectangle);
+                IShape shape = new ShapesClasses.Rectangle();
+                shape.Draw(CanvasWindow,ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value);
             }
 
             if (PolygonButton.IsChecked != null && (bool) PolygonButton.IsChecked)
             {
-                Polygon polygon = new Polygon
-                {
-                    Width = 500,
-                    Height = 500,
-                    Points =
-                        PointCollection.Parse(
-                            "10,150 30,140 50,168 70,120 90,185 110,100 130,200 150,80 170,215 190,60 210,250"),
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Fill = ColorPickerFill.Background,
-                    Stroke = ColorPickerBorder.Background,
-                    StrokeThickness = ThicknessSlider.Value,
-                };
-                CanvasWindow.Children.Add(polygon);
+                IShape shape = new ShapesClasses.Polygon();
+                shape.Draw(CanvasWindow,ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value);
             }
         }
     }
