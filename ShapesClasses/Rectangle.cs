@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,23 +8,34 @@ namespace Paint_Lab.ShapesClasses
 {
     public class Rectangle : IShape
     {
-        public int Height { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public PointCollection Points { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Width { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int StrokeThickness { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SolidColorBrush FillColorBrush { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SolidColorBrush StrokeColorBrush { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness)
+        public int Height { get; set; }
+
+        public PointCollection Points { get; set; }
+
+        public int Width { get; set; }
+
+        public int StrokeThickness { get; set; }
+
+        public Brush FillColorBrush { get; set; }
+
+        public Brush StrokeColorBrush { get; set; }
+
+        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
+            PointCollection points)
         {
-            System.Windows.Shapes.Rectangle rectangle = new  System.Windows.Shapes.Rectangle
+            Point startPoint = points[0];
+            Point endPoints = points[^1];
+            System.Windows.Shapes.Rectangle rectangle = new System.Windows.Shapes.Rectangle
             {
-                Width = 200,
-                Height = 100,
-                VerticalAlignment = VerticalAlignment.Center,
+                Width = endPoints.X >= startPoint.X ? (endPoints.X - startPoint.X) : (startPoint.X - endPoints.X),
+                Height = endPoints.Y >= startPoint.Y ? (endPoints.Y - startPoint.Y) : (startPoint.Y - endPoints.Y),
                 Fill = fillColor,
                 Stroke = strokeColor,
                 StrokeThickness = strokeThickness,
             };
+
+            rectangle.SetValue(Canvas.LeftProperty, endPoints.X >= startPoint.X ? startPoint.X : endPoints.X);
+            rectangle.SetValue(Canvas.TopProperty, endPoints.Y >= startPoint.Y ? startPoint.Y : endPoints.Y);
             canvas.Children.Add(rectangle);
         }
     }

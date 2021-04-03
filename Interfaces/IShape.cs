@@ -7,12 +7,18 @@ namespace Paint_Lab.Interfaces
 {
     public interface IShape
     {
-        private int Height { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        private PointCollection Points { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        private int Width { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        private int StrokeThickness  { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        private SolidColorBrush FillColorBrush { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        private SolidColorBrush StrokeColorBrush  { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness);
+        public int Height{ get; set; }
+
+        public PointCollection Points{ get; set; }
+
+        public int Width{ get; set; }
+
+        public int StrokeThickness{ get; set; }
+
+        public Brush FillColorBrush{ get; set; }
+
+        public Brush StrokeColorBrush{ get; set; }
+
+        void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness, PointCollection points);
     }
 }

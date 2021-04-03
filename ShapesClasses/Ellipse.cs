@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,24 +8,33 @@ namespace Paint_Lab.ShapesClasses
 {
     public class Ellipse : IShape
     {
-        public int Height { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Width { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public PointCollection Points { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int StrokeThickness { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SolidColorBrush FillColorBrush { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SolidColorBrush StrokeColorBrush { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public int Height { get; set; }
 
-        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness)
+        public int Width { get; set; }
+
+        public PointCollection Points { get; set; }
+
+        public int StrokeThickness { get; set; }
+
+        public Brush FillColorBrush { get; set; }
+
+        public Brush StrokeColorBrush { get; set; }
+
+        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
+            PointCollection points)
         {
+            Point startPoint = points[0];
+            Point endPoints = points[^1];
             System.Windows.Shapes.Ellipse ellipse = new System.Windows.Shapes.Ellipse
             {
-                Width = 200,
-                Height = 100,
-                VerticalAlignment = VerticalAlignment.Center,
+                Width = endPoints.X >= startPoint.X ? (endPoints.X - startPoint.X) : (startPoint.X - endPoints.X),
+                Height = endPoints.Y >= startPoint.Y ? (endPoints.Y - startPoint.Y) : (startPoint.Y - endPoints.Y),
                 Fill = fillColor,
                 Stroke = strokeColor,
                 StrokeThickness = strokeThickness,
             };
+            ellipse.SetValue(Canvas.LeftProperty, endPoints.X >= startPoint.X ? startPoint.X : endPoints.X);
+            ellipse.SetValue(Canvas.TopProperty, endPoints.Y >= startPoint.Y ? startPoint.Y : endPoints.Y);
             canvas.Children.Add(ellipse);
         }
     }

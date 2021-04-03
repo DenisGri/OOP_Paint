@@ -9,20 +9,22 @@ namespace Paint_Lab.ShapesClasses
 {
     public class Line : IShape
     {
-        public int Height { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public PointCollection Points { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Width { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int StrokeThickness { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SolidColorBrush FillColorBrush { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SolidColorBrush StrokeColorBrush { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness)
+        public int Height { get; set; }
+        public PointCollection Points { get; set; }
+        public int Width { get; set; }
+        public int StrokeThickness { get; set; }
+        public Brush FillColorBrush { get; set; }
+        public Brush StrokeColorBrush { get; set; }
+
+        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
+            PointCollection points)
         {
             System.Windows.Shapes.Line line = new System.Windows.Shapes.Line
             {
-                X1 = 50,
-                Y1 = 50,
-                X2 = 100,
-                Y2 = 100,
+                X1 = points[0].X,
+                Y1 = points[0].Y,
+                X2 = points[^1].X,
+                Y2 = points[^1].Y,
                 VerticalAlignment = VerticalAlignment.Center,
                 Fill = fillColor,
                 Stroke = strokeColor,

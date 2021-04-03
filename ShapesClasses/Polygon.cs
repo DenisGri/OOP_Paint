@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,26 +8,43 @@ namespace Paint_Lab.ShapesClasses
 {
     public class Polygon : IShape
     {
-        public int Height { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public PointCollection Points { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int Width { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public int StrokeThickness { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SolidColorBrush FillColorBrush { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public SolidColorBrush StrokeColorBrush { private get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness)
+        public int Height { get; set; }
+        public PointCollection Points { get; set; }
+        public int Width { get; set; }
+        public int StrokeThickness { get; set; }
+        public Brush FillColorBrush { get; set; }
+        public Brush StrokeColorBrush { get; set; }
+        public int AngleCounter { get; set; }
+
+        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
+            PointCollection points)
         {
+            Point startPoint = points[0];
+            Point endPoints = points[^1];
+            AngleCounter = Height;
             System.Windows.Shapes.Polygon polygon = new System.Windows.Shapes.Polygon
             {
-                Width = 500,
-                Height = 500,
-                Points =
-                    PointCollection.Parse(
-                        "10,150 30,140 50,168 70,120 90,185 110,100 130,200 150,80 170,215 190,60 210,250"),
-                VerticalAlignment = VerticalAlignment.Center,
+                Width = endPoints.X >= startPoint.X ? (endPoints.X - startPoint.X) : (startPoint.X - endPoints.X),
+                Height = endPoints.Y >= startPoint.Y ? (endPoints.Y - startPoint.Y) : (startPoint.Y - endPoints.Y),
                 Fill = fillColor,
                 Stroke = strokeColor,
                 StrokeThickness = strokeThickness,
             };
+            double radius = ((polygon.Width / 2) + (polygon.Height / 2)) / 2;
+            double angle = 2 * Math.PI / AngleCounter;
+            PointCollection polygonPointCollection = new PointCollection(AngleCounter);
+
+            for (int i = 0; i < AngleCounter; i++)
+            {
+                Point temPoint;
+                temPoint.X = polygon.Width / 2 + radius * Math.Cos(angle * i);
+                temPoint.Y = polygon.Height / 2 + radius * Math.Sin(angle * i);
+                polygonPointCollection.Add(temPoint);
+            }
+
+            polygon.Points = polygonPointCollection;
+            polygon.SetValue(Canvas.LeftProperty, endPoints.X >= startPoint.X ? startPoint.X : endPoints.X);
+            polygon.SetValue(Canvas.TopProperty, endPoints.Y >= startPoint.Y ? startPoint.Y : endPoints.Y);
             canvas.Children.Add(polygon);
         }
     }

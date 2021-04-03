@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Paint_Lab.Interfaces;
-using Paint_Lab.ShapesClasses;
 
 namespace Paint_Lab
 {
@@ -22,6 +10,10 @@ namespace Paint_Lab
     /// </summary>
     public partial class MainWindow : Window
     {
+        private PointCollection _coordinates = new PointCollection(1000);
+        private IShape _currentShape;
+        private int _angleValue;
+
         private void Slider_ValueChanged_Fill(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             double R = RedSliderFill.Value;
@@ -49,29 +41,62 @@ namespace Paint_Lab
         private void DrawButton_Click(object sender, RoutedEventArgs e)
         {
             CanvasWindow.Children.Clear();
-            if (LineButton.IsChecked != null && (bool) LineButton.IsChecked)
+        }
+        
+        private void CanvasWindow_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            if (_currentShape != null)
             {
-                IShape shape = new ShapesClasses.Line();
-                shape.Draw(CanvasWindow,ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value);
+                _coordinates.Add(e.GetPosition(CanvasWindow));
             }
+        }
 
-            if (EllipseButton.IsChecked != null && (bool) EllipseButton.IsChecked)
-            {
-                IShape shape = new ShapesClasses.Ellipse();
-                shape.Draw(CanvasWindow,ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value);
-            }
+        private void CanvasWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _coordinates.Clear();
+            _coordinates.Add(e.GetPosition(CanvasWindow));
+        }
 
-            if (RectangleButton.IsChecked != null && (bool) RectangleButton.IsChecked)
-            {
-                IShape shape = new ShapesClasses.Rectangle();
-                shape.Draw(CanvasWindow,ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value);
-            }
+        private void CanvasWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value, _coordinates);
+        }
 
-            if (PolygonButton.IsChecked != null && (bool) PolygonButton.IsChecked)
+        private void LineButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _currentShape = new ShapesClasses.Line();
+        }
+
+        private void EllipseButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _currentShape = new ShapesClasses.Ellipse();
+        }
+
+        private void PolygonButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _currentShape = new ShapesClasses.Polygon
             {
-                IShape shape = new ShapesClasses.Polygon();
-                shape.Draw(CanvasWindow,ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value);
+                Height = _angleValue
+            };
+        }
+
+        private void RectangleButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _currentShape = new ShapesClasses.Rectangle();
+        }
+
+        private void UndoButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            int count = CanvasWindow.Children.Count;
+            if (count > 0)
+            {
+                CanvasWindow.Children.RemoveAt(count - 1);
             }
+        }
+
+        private void AngleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            _angleValue = (int)AngleSlider.Value;
         }
     }
 }
