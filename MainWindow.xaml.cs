@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Globalization;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Paint_Lab.Interfaces;
@@ -10,9 +12,9 @@ namespace Paint_Lab
     /// </summary>
     public partial class MainWindow : Window
     {
-        private PointCollection _coordinates = new PointCollection(1000);
+        private readonly PointCollection _coordinates = new PointCollection(1000);
         private IShape _currentShape;
-        private int _angleValue;
+        private int _coordinatesItr = 0;
 
         private void Slider_ValueChanged_Fill(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -45,23 +47,33 @@ namespace Paint_Lab
         
         private void CanvasWindow_OnMouseMove(object sender, MouseEventArgs e)
         {
-            if (_currentShape != null)
-            {
-                _coordinates.Add(e.GetPosition(CanvasWindow));
-            }
+            //if (_currentShape != null)
+            //{
+            //    _coordinates.Add(e.GetPosition(CanvasWindow));
+            //}
         }
 
         private void CanvasWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _coordinates.Clear();
             _coordinates.Add(e.GetPosition(CanvasWindow));
         }
 
         private void CanvasWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background, ColorPickerBorder.Background, ThicknessSlider.Value, _coordinates);
+            _coordinates.Add(e.GetPosition(CanvasWindow));
+            PointCollection newCollection = new PointCollection(_coordinates.Count - _coordinatesItr);
+            for (int i = _coordinatesItr; i < _coordinates.Count; i++)
+            {
+                newCollection.Add(_coordinates[i]);
+            }
+            _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background, ColorPickerBorder.Background,
+                ThicknessSlider.Value, newCollection);
         }
 
+        private void CanvasWindow_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            _coordinatesItr = _coordinates.Count;
+        }
         private void LineButton_Checked(object sender, RoutedEventArgs e)
         {
             _currentShape = new ShapesClasses.Line();
@@ -74,15 +86,17 @@ namespace Paint_Lab
 
         private void PolygonButton_Checked(object sender, RoutedEventArgs e)
         {
-            _currentShape = new ShapesClasses.Polygon
-            {
-                Height = _angleValue
-            };
+            _currentShape = new ShapesClasses.Polygon();
         }
 
         private void RectangleButton_Checked(object sender, RoutedEventArgs e)
         {
             _currentShape = new ShapesClasses.Rectangle();
+        }
+
+        private void PolylineButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _currentShape = new ShapesClasses.PolygonLine();
         }
 
         private void UndoButton_OnClick(object sender, RoutedEventArgs e)
@@ -94,9 +108,5 @@ namespace Paint_Lab
             }
         }
 
-        private void AngleSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            _angleValue = (int)AngleSlider.Value;
-        }
     }
 }

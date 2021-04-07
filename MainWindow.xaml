@@ -9,11 +9,11 @@
         mc:Ignorable="d"
         Title="Paint">
     <Grid HorizontalAlignment="Left" Height="718" Margin="10,14,-18,-43" VerticalAlignment="Top" Width="1024">
-        <Canvas x:Name="CanvasWindow" HorizontalAlignment="Left" Height="613" Margin="10,95,0,0" VerticalAlignment="Top" Width="980" Background="Transparent" MouseMove="CanvasWindow_OnMouseMove" MouseLeftButtonDown="CanvasWindow_MouseLeftButtonDown" MouseLeftButtonUp="CanvasWindow_MouseLeftButtonUp"/>
+        <Canvas x:Name="CanvasWindow" HorizontalAlignment="Left" Height="613" Margin="10,95,0,0" VerticalAlignment="Top" Width="980" Background="Transparent" MouseMove="CanvasWindow_OnMouseMove" MouseLeftButtonDown="CanvasWindow_MouseLeftButtonDown" MouseLeftButtonUp="CanvasWindow_MouseLeftButtonUp" MouseRightButtonDown="CanvasWindow_MouseRightButtonDown"/>
         <RadioButton x:Name="LineButton" Content="LineBrush" HorizontalAlignment="Left" Margin="40,10,0,0" VerticalAlignment="Top" Checked="LineButton_Checked"/>
-        <RadioButton x:Name="EllipseButton" Content="EllipseBrush" HorizontalAlignment="Left" Margin="40,30,0,0" VerticalAlignment="Top" Checked="EllipseButton_Checked" />
+        <RadioButton x:Name="EllipseButton" Content="EllipseBrush" HorizontalAlignment="Left" Margin="40,28,0,0" VerticalAlignment="Top" Checked="EllipseButton_Checked" />
         <RadioButton x:Name="PolygonButton" Content="PolygonBrush" HorizontalAlignment="Left" Margin="140,10,0,0" VerticalAlignment="Top" Checked="PolygonButton_Checked"/>
-        <RadioButton x:Name="RectangleButton" Content="RectangleBrush" HorizontalAlignment="Left" Margin="140,30,0,0" VerticalAlignment="Top" Checked="RectangleButton_Checked"/>
+        <RadioButton x:Name="RectangleButton" Content="RectangleBrush" HorizontalAlignment="Left" Margin="140,28,0,0" VerticalAlignment="Top" Checked="RectangleButton_Checked"/>
         <Border x:Name="ColorPickerFill" BorderBrush="Black" Background="Black" BorderThickness="1" HorizontalAlignment="Left" Height="64" Margin="305,10,0,0" VerticalAlignment="Top" Width="65"/>
         <Slider x:Name="RedSliderFill" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top" Width="110" Maximum="255" ValueChanged="Slider_ValueChanged_Fill" SmallChange="1" AutoToolTipPlacement="BottomRight"/>
         <Slider x:Name="GreenSliderFill" HorizontalAlignment="Left" Margin="415,33,0,0" VerticalAlignment="Top" Width="110" Maximum="255" ValueChanged="Slider_ValueChanged_Fill" SmallChange="1" AutoToolTipPlacement="BottomRight"/>
@@ -34,7 +34,7 @@
         <Label Content="Fill" HorizontalAlignment="Left" Margin="325,69,0,0" VerticalAlignment="Top"/>
         <Label Content="Border" HorizontalAlignment="Left" Margin="550,69,0,0" VerticalAlignment="Top"/>
         <Button x:Name="UndoButton" Content="Undo" HorizontalAlignment="Left" Margin="145,62,0,0" VerticalAlignment="Top" Width="90" Click="UndoButton_OnClick"/>
-        <Slider x:Name="AngleSlider" HorizontalAlignment="Left" Margin="246,4,0,0" VerticalAlignment="Top" Width="20" Orientation="Vertical" AutoToolTipPlacement="BottomRight" SmallChange="1" Value="1" Minimum="1" Height="30" ValueChanged="AngleSlider_ValueChanged"/>
+        <RadioButton x:Name="PolylineButton" Content="PolylineBrush" HorizontalAlignment="Left" Margin="140,44,0,0" VerticalAlignment="Top" Checked="PolylineButton_Checked"/>
     </Grid>
 </Window>
 
