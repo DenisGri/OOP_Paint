@@ -66,8 +66,14 @@ namespace Paint_Lab
             {
                 newCollection.Add(_coordinates[i]);
             }
-            _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background, ColorPickerBorder.Background,
+
+            var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background, ColorPickerBorder.Background,
                 ThicknessSlider.Value, newCollection);
+
+            if (isRightClick != null && (bool)isRightClick)
+            {
+                CanvasWindow_MouseRightButtonDown(sender, e);
+            }
         }
 
         private void CanvasWindow_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
