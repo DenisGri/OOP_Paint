@@ -15,7 +15,7 @@ namespace Paint_Lab.ShapesClasses
         public int StrokeThickness { get; set; }
         public Brush FillColorBrush { get; set; }
         public Brush StrokeColorBrush { get; set; }
-        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness, PointCollection points)
+        public bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness, PointCollection points)
         {
             var polyline = new System.Windows.Shapes.Polyline()
             {
@@ -25,6 +25,8 @@ namespace Paint_Lab.ShapesClasses
                 StrokeThickness = strokeThickness,
             };
             canvas.Children.Add(polyline);
+
+            return false;
         }
     }
 }

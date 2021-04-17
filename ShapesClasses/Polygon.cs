@@ -15,7 +15,7 @@ namespace Paint_Lab.ShapesClasses
         public Brush FillColorBrush { get; set; }
         public Brush StrokeColorBrush { get; set; }
 
-        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
+        public bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points)
         {
             var polygon = new System.Windows.Shapes.Polygon()
@@ -27,6 +27,8 @@ namespace Paint_Lab.ShapesClasses
                 StrokeThickness = strokeThickness,
             };
             canvas.Children.Add(polygon);
+
+            return false;
         }
     }
 }

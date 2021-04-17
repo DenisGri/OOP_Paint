@@ -20,7 +20,7 @@ namespace Paint_Lab.ShapesClasses
 
         public Brush StrokeColorBrush { get; set; }
 
-        public void Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
+        public bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points)
         {
             Point startPoint = points[0];
@@ -36,6 +36,8 @@ namespace Paint_Lab.ShapesClasses
             ellipse.SetValue(Canvas.LeftProperty, endPoints.X >= startPoint.X ? startPoint.X : endPoints.X);
             ellipse.SetValue(Canvas.TopProperty, endPoints.Y >= startPoint.Y ? startPoint.Y : endPoints.Y);
             canvas.Children.Add(ellipse);
+
+            return true;
         }
     }
 }
