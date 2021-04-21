@@ -9,12 +9,14 @@ namespace Paint_Lab.ShapesClasses
 {
     public class PolygonLine : IShape
     {
-        public int Height { get; set; }
         public PointCollection Points { get; set; }
-        public int Width { get; set; }
-        public int StrokeThickness { get; set; }
+
+        public double StrokeThickness { get; set; }
+
         public Brush FillColorBrush { get; set; }
+
         public Brush StrokeColorBrush { get; set; }
+
         public bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness, PointCollection points)
         {
             var polyline = new System.Windows.Shapes.Polyline()

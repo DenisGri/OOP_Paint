@@ -8,10 +8,8 @@ namespace Paint_Lab.ShapesClasses
 {
     public class Line : IShape
     {
-        public int Height { get; set; }
         public PointCollection Points { get; set; }
-        public int Width { get; set; }
-        public int StrokeThickness { get; set; }
+        public double StrokeThickness { get; set; }
         public Brush FillColorBrush { get; set; }
         public Brush StrokeColorBrush { get; set; }
 

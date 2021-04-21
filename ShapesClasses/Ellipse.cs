@@ -8,13 +8,9 @@ namespace Paint_Lab.ShapesClasses
 {
     public class Ellipse : IShape
     {
-        public int Height { get; set; }
-
-        public int Width { get; set; }
-
         public PointCollection Points { get; set; }
 
-        public int StrokeThickness { get; set; }
+        public double StrokeThickness { get; set; }
 
         public Brush FillColorBrush { get; set; }
 

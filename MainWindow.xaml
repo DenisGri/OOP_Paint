@@ -30,11 +30,13 @@
         <Label Content="B&#xA;" HorizontalAlignment="Left" Margin="620,52,0,0" VerticalAlignment="Top" Height="25" RenderTransformOrigin="0.588,0.619"/>
         <Line x:Name="ThicknessLine" X1="800" Y1="40" X2="900" Y2="40" Stroke="Black" StrokeThickness="1"></Line>
         <Slider x:Name="ThicknessSlider" HorizontalAlignment="Left" Margin="910,5,0,0" VerticalAlignment="Top" Width="20" Orientation="Vertical" Height="72" SmallChange="1" Maximum="50" AutoToolTipPlacement="BottomRight" ValueChanged="ThicknessSlider_ValueChanged" Value="1"/>
-        <Button x:Name="DrawButton" Content="Clear" HorizontalAlignment="Left" Margin="40,62,0,0" VerticalAlignment="Top" Width="90" Click="DrawButton_Click"/>
+        <Button x:Name="DrawButton" Content="Clear" HorizontalAlignment="Left" Margin="20,62,0,0" VerticalAlignment="Top" Width="55" Click="DrawButton_Click"/>
         <Label Content="Fill" HorizontalAlignment="Left" Margin="325,69,0,0" VerticalAlignment="Top"/>
         <Label Content="Border" HorizontalAlignment="Left" Margin="550,69,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="UndoButton" Content="Undo" HorizontalAlignment="Left" Margin="145,62,0,0" VerticalAlignment="Top" Width="90" Click="UndoButton_OnClick"/>
+        <Button x:Name="UndoButton" Content="Undo" HorizontalAlignment="Left" Margin="95,62,0,0" VerticalAlignment="Top" Width="75" Click="UndoButton_OnClick"/>
         <RadioButton x:Name="PolylineButton" Content="PolylineBrush" HorizontalAlignment="Left" Margin="140,44,0,0" VerticalAlignment="Top" Checked="PolylineButton_Checked"/>
+        <Button x:Name="RedoButton" Content="Redo" HorizontalAlignment="Left" Margin="185,62,0,0" VerticalAlignment="Top" Width="75" Click="RedoButton_OnClickRedoButton_OnClick"/>
+        <Label x:Name="Test" Content="test" HorizontalAlignment="Left" Margin="2,12,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>
 

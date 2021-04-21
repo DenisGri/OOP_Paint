@@ -1,5 +1,5 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -10,28 +10,31 @@ namespace Paint_Lab
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
-        private readonly PointCollection _coordinates = new PointCollection(1000);
+        private readonly PointCollection _coordinates = new(1000);
+        private readonly PointCollection _coordinatesPreview = new(100);
         private IShape _currentShape;
-        private int _coordinatesItr = 0;
+        private int _coordinatesItr;
+        private readonly List<IShape> _redoShapesList = new List<IShape>();
+        private int _itrUndoRedo = -1;
 
         private void Slider_ValueChanged_Fill(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            double R = RedSliderFill.Value;
-            double G = GreenSliderFill.Value;
-            double B = BlueSliderFill.Value;
-            var brushColor = new SolidColorBrush(Color.FromArgb(255, (byte) R, (byte) G, (byte) B));
+            var r = RedSliderFill.Value;
+            var g = GreenSliderFill.Value;
+            var b = BlueSliderFill.Value;
+            var brushColor = new SolidColorBrush(Color.FromArgb(255, (byte) r, (byte) g, (byte) b));
             ColorPickerFill.Background = brushColor;
             ThicknessLine.Stroke = brushColor;
         }
 
         private void Slider_ValueChanged_Border(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            double R = RedSliderBorder.Value;
-            double G = GreenSliderBorder.Value;
-            double B = BlueSliderBorder.Value;
-            var brushColor = new SolidColorBrush(Color.FromArgb(255, (byte) R, (byte) G, (byte) B));
+            var r = RedSliderBorder.Value;
+            var g = GreenSliderBorder.Value;
+            var b = BlueSliderBorder.Value;
+            var brushColor = new SolidColorBrush(Color.FromArgb(255, (byte) r, (byte) g, (byte) b));
             ColorPickerBorder.Background = brushColor;
         }
 
@@ -44,18 +47,36 @@ namespace Paint_Lab
         {
             CanvasWindow.Children.Clear();
         }
-        
+
         private void CanvasWindow_OnMouseMove(object sender, MouseEventArgs e)
         {
-            //if (_currentShape != null)
-            //{
-            //    _coordinates.Add(e.GetPosition(CanvasWindow));
-            //}
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                _coordinatesPreview.Add(e.GetPosition(CanvasWindow));
+            }
+
+            _ = CleanerTask();
+        }
+
+        async Task CleanerTask()
+        {
+            PointCollection newCollection = new PointCollection(2) {_coordinatesPreview[0], _coordinatesPreview[^1]};
+            _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background, ColorPickerBorder.Background,
+                ThicknessSlider.Value, newCollection);
+            await Task.Delay(1);
+            int count = CanvasWindow.Children.Count;
+            if (count > 0)
+            {
+                CanvasWindow.Children.RemoveAt(count - 1);
+            }
+
+            await Task.CompletedTask;
         }
 
         private void CanvasWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _coordinates.Add(e.GetPosition(CanvasWindow));
+            _coordinatesPreview.Add(e.GetPosition(CanvasWindow));
         }
 
         private void CanvasWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -67,19 +88,37 @@ namespace Paint_Lab
                 newCollection.Add(_coordinates[i]);
             }
 
-            var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background, ColorPickerBorder.Background,
-                ThicknessSlider.Value, newCollection);
+            var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background,
+                ColorPickerBorder.Background, ThicknessSlider.Value, newCollection);
 
-            if (isRightClick != null && (bool)isRightClick)
+            if (_currentShape != null)
+            {
+                _currentShape.Points = newCollection;
+                _currentShape.FillColorBrush = ColorPickerFill.Background;
+                _currentShape.StrokeColorBrush = ColorPickerBorder.Background;
+                _currentShape.StrokeThickness = ThicknessSlider.Value;
+            }
+
+            _redoShapesList.Add(_currentShape);
+            _itrUndoRedo++;
+
+
+            Test.Content = $"{_itrUndoRedo.ToString()} _ {CanvasWindow.Children.Count.ToString()}";
+
+
+            if (isRightClick != null && (bool) isRightClick)
             {
                 CanvasWindow_MouseRightButtonDown(sender, e);
             }
+
+            _coordinatesPreview.Clear();
         }
 
         private void CanvasWindow_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _coordinatesItr = _coordinates.Count;
         }
+
         private void LineButton_Checked(object sender, RoutedEventArgs e)
         {
             _currentShape = new ShapesClasses.Line();
@@ -111,8 +150,31 @@ namespace Paint_Lab
             if (count > 0)
             {
                 CanvasWindow.Children.RemoveAt(count - 1);
+                _itrUndoRedo--;
             }
+
+            Test.Content = $"{_itrUndoRedo.ToString()} _ {CanvasWindow.Children.Count.ToString()}";
         }
 
+        private void RedoButton_OnClickRedoButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (_itrUndoRedo > -1 && _itrUndoRedo < CanvasWindow.Children.Count)
+            {
+                var toDraw = _redoShapesList[_itrUndoRedo];
+                toDraw.Draw(CanvasWindow, toDraw.FillColorBrush, toDraw.StrokeColorBrush, toDraw.StrokeThickness,
+                    toDraw.Points);
+                _itrUndoRedo++;
+            }
+
+            if (_itrUndoRedo == -1)
+            {
+                var toDraw = _redoShapesList[^1];
+                toDraw.Draw(CanvasWindow, toDraw.FillColorBrush, toDraw.StrokeColorBrush, toDraw.StrokeThickness,
+                    toDraw.Points);
+                _itrUndoRedo++;
+            }
+
+            Test.Content = $"{_itrUndoRedo.ToString()} _ {CanvasWindow.Children.Count.ToString()}";
+        }
     }
 }
