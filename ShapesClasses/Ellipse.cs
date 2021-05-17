@@ -1,22 +1,13 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Paint_Lab.Interfaces;
 
 namespace Paint_Lab.ShapesClasses
 {
-    public class Ellipse : IShape
+    public class Ellipse : Shape
     {
-        public PointCollection Points { get; set; }
 
-        public double StrokeThickness { get; set; }
-
-        public Brush FillColorBrush { get; set; }
-
-        public Brush StrokeColorBrush { get; set; }
-
-        public bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
+        public override bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points)
         {
             Point startPoint = points[0];

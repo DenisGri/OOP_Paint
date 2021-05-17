@@ -1,12 +1,10 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Paint_Lab.Interfaces;
 
 namespace Paint_Lab.ShapesClasses
 {
-    public class Polygon : IShape
+    public class Polygon : Shape
     {
         public PointCollection Points { get; set; }
 
@@ -16,8 +14,7 @@ namespace Paint_Lab.ShapesClasses
 
         public Brush StrokeColorBrush { get; set; }
 
-
-        public bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
+        public override bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points)
         {
             var polygon = new System.Windows.Shapes.Polygon()

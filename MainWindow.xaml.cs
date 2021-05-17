@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Paint_Lab.Interfaces;
+using Paint_Lab.ShapesClasses;
 
 namespace Paint_Lab
 {
@@ -13,10 +12,9 @@ namespace Paint_Lab
     public partial class MainWindow
     {
         private readonly PointCollection _coordinates = new(1000);
-        private readonly PointCollection _coordinatesPreview = new(100);
-        private IShape _currentShape;
+        private Shape _currentShape;
         private int _coordinatesItr;
-        private readonly List<IShape> _redoShapesList = new List<IShape>();
+        private readonly List<Shape> _redoShapesList = new List<Shape>();
         private int _itrUndoRedo = -1;
 
         private void Slider_ValueChanged_Fill(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -46,37 +44,12 @@ namespace Paint_Lab
         private void DrawButton_Click(object sender, RoutedEventArgs e)
         {
             CanvasWindow.Children.Clear();
+            _itrUndoRedo = 0;
         }
-
-        private void CanvasWindow_OnMouseMove(object sender, MouseEventArgs e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                _coordinatesPreview.Add(e.GetPosition(CanvasWindow));
-            }
-
-            _ = CleanerTask();
-        }
-
-        async Task CleanerTask()
-        {
-            PointCollection newCollection = new PointCollection(2) {_coordinatesPreview[0], _coordinatesPreview[^1]};
-            _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background, ColorPickerBorder.Background,
-                ThicknessSlider.Value, newCollection);
-            await Task.Delay(1);
-            int count = CanvasWindow.Children.Count;
-            if (count > 0)
-            {
-                CanvasWindow.Children.RemoveAt(count - 1);
-            }
-
-            await Task.CompletedTask;
-        }
-
+        
         private void CanvasWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _coordinates.Add(e.GetPosition(CanvasWindow));
-            _coordinatesPreview.Add(e.GetPosition(CanvasWindow));
         }
 
         private void CanvasWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -103,15 +76,13 @@ namespace Paint_Lab
             _itrUndoRedo++;
 
 
-            Test.Content = $"{_itrUndoRedo.ToString()} _ {CanvasWindow.Children.Count.ToString()}";
+            Test.Content = $"{_itrUndoRedo} _ {CanvasWindow.Children.Count}";
 
 
             if (isRightClick != null && (bool) isRightClick)
             {
                 CanvasWindow_MouseRightButtonDown(sender, e);
             }
-
-            _coordinatesPreview.Clear();
         }
 
         private void CanvasWindow_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -153,7 +124,7 @@ namespace Paint_Lab
                 _itrUndoRedo--;
             }
 
-            Test.Content = $"{_itrUndoRedo.ToString()} _ {CanvasWindow.Children.Count.ToString()}";
+            Test.Content = $"{_itrUndoRedo} _ {CanvasWindow.Children.Count}";
         }
 
         private void RedoButton_OnClickRedoButton_OnClick(object sender, RoutedEventArgs e)
@@ -174,7 +145,7 @@ namespace Paint_Lab
                 _itrUndoRedo++;
             }
 
-            Test.Content = $"{_itrUndoRedo.ToString()} _ {CanvasWindow.Children.Count.ToString()}";
+            Test.Content = $"{_itrUndoRedo} _ {CanvasWindow.Children.Count}";
         }
     }
 }
