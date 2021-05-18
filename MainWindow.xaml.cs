@@ -85,18 +85,13 @@ namespace Paint_Lab
                 CanvasWindow_MouseRightButtonDown(sender, e);
             }
 
-            
-            RadioButtonDisable();
         }
 
-        private void RadioButtonDisable()
-        {
-            _currentShape = null;
-            NullButton.IsChecked = true;
-        }
 
         private void CanvasWindow_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _currentShape = null;
+            NullButton.IsChecked = true;
             _coordinatesItr = _coordinates.Count;
         } 
 
