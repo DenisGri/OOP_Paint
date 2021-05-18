@@ -10,9 +10,9 @@ namespace Paint_Lab.ShapesClasses
         public override bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points)
         {
-            Point startPoint = points[0];
-            Point endPoints = points[^1];
-            System.Windows.Shapes.Rectangle rectangle = new System.Windows.Shapes.Rectangle
+            var startPoint = points[0];
+            var endPoints = points[^1];
+            var rectangle = new System.Windows.Shapes.Rectangle
             {
                 Width = endPoints.X >= startPoint.X ? (endPoints.X - startPoint.X) : (startPoint.X - endPoints.X),
                 Height = endPoints.Y >= startPoint.Y ? (endPoints.Y - startPoint.Y) : (startPoint.Y - endPoints.Y),

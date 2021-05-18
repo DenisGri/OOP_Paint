@@ -67,6 +67,7 @@ namespace Paint_Lab
                 newCollection.Add(_coordinates[i]);
             }
 
+           
             if (_currentShape != null)
             {
                 _currentShape.Points = newCollection;
@@ -84,12 +85,20 @@ namespace Paint_Lab
                 CanvasWindow_MouseRightButtonDown(sender, e);
             }
 
+            
+            RadioButtonDisable();
+        }
+
+        private void RadioButtonDisable()
+        {
+            _currentShape = null;
+            NullButton.IsChecked = true;
         }
 
         private void CanvasWindow_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _coordinatesItr = _coordinates.Count;
-        }
+        } 
 
         private void LineButton_Checked(object sender, RoutedEventArgs e)
         {

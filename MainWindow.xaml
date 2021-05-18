@@ -37,6 +37,7 @@
         <RadioButton x:Name="PolylineButton" Content="PolylineBrush" HorizontalAlignment="Left" Margin="140,44,0,0" VerticalAlignment="Top" Checked="PolylineButton_Checked"/>
         <Button x:Name="RedoButton" Content="Redo" HorizontalAlignment="Left" Margin="185,62,0,0" VerticalAlignment="Top" Width="75" Click="RedoButton_OnClickRedoButton_OnClick"/>
         <Label x:Name="Test" Content="test" HorizontalAlignment="Left" Margin="20,720,0,0" VerticalAlignment="Top" Width="977"/>
+        <RadioButton x:Name="NullButton" Content="" HorizontalAlignment="Left" Margin="252,11,0,0" VerticalAlignment="Top" Width="33" IsChecked="True" Opacity="0"/>
     </Grid>
 </Window>
 

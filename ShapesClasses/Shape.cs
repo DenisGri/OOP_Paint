@@ -13,7 +13,11 @@ namespace Paint_Lab.ShapesClasses
         protected internal Brush FillColorBrush { get; set; }
 
         protected internal Brush StrokeColorBrush { get; set; }
-        
+
+        protected Shape()
+        {
+        }
+
         public abstract bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points);
     }
