@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Paint_Lab.Control;
 using Paint_Lab.ShapesClasses;
 
 namespace Paint_Lab
@@ -14,8 +14,14 @@ namespace Paint_Lab
         private readonly PointCollection _coordinates = new(1000);
         private Shape _currentShape;
         private int _coordinatesItr;
-        private readonly List<Shape> _redoShapesList = new List<Shape>();
-        private int _itrUndoRedo = -1;
+        private readonly Undo _listShape;
+        private readonly Redo _stackShape;
+
+        public MainWindow()
+        {
+            _listShape = new Undo();
+            _stackShape = new Redo();
+        }
 
         private void Slider_ValueChanged_Fill(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -44,12 +50,12 @@ namespace Paint_Lab
         private void DrawButton_Click(object sender, RoutedEventArgs e)
         {
             CanvasWindow.Children.Clear();
-            _itrUndoRedo = 0;
         }
         
         private void CanvasWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             _coordinates.Add(e.GetPosition(CanvasWindow));
+            _stackShape.Push(_currentShape);
         }
 
         private void CanvasWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -61,28 +67,23 @@ namespace Paint_Lab
                 newCollection.Add(_coordinates[i]);
             }
 
-            var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background,
-                ColorPickerBorder.Background, ThicknessSlider.Value, newCollection);
-
             if (_currentShape != null)
             {
                 _currentShape.Points = newCollection;
                 _currentShape.FillColorBrush = ColorPickerFill.Background;
                 _currentShape.StrokeColorBrush = ColorPickerBorder.Background;
                 _currentShape.StrokeThickness = ThicknessSlider.Value;
+                _listShape.Add(_currentShape);
             }
 
-            _redoShapesList.Add(_currentShape);
-            _itrUndoRedo++;
-
-
-            Test.Content = $"{_itrUndoRedo} _ {CanvasWindow.Children.Count}";
-
+            var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background,
+                ColorPickerBorder.Background, ThicknessSlider.Value, newCollection);
 
             if (isRightClick != null && (bool) isRightClick)
             {
                 CanvasWindow_MouseRightButtonDown(sender, e);
             }
+
         }
 
         private void CanvasWindow_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
@@ -92,60 +93,52 @@ namespace Paint_Lab
 
         private void LineButton_Checked(object sender, RoutedEventArgs e)
         {
-            _currentShape = new ShapesClasses.Line();
+            _currentShape = new Line();
         }
 
         private void EllipseButton_Checked(object sender, RoutedEventArgs e)
         {
-            _currentShape = new ShapesClasses.Ellipse();
+            _currentShape = new Ellipse();
         }
 
         private void PolygonButton_Checked(object sender, RoutedEventArgs e)
         {
-            _currentShape = new ShapesClasses.Polygon();
+            _currentShape = new Polygon();
         }
 
         private void RectangleButton_Checked(object sender, RoutedEventArgs e)
         {
-            _currentShape = new ShapesClasses.Rectangle();
+            _currentShape = new Rectangle();
         }
 
         private void PolylineButton_Checked(object sender, RoutedEventArgs e)
         {
-            _currentShape = new ShapesClasses.PolygonLine();
+            _currentShape = new PolygonLine();
         }
 
         private void UndoButton_OnClick(object sender, RoutedEventArgs e)
         {
-            int count = CanvasWindow.Children.Count;
-            if (count > 0)
+            if (_listShape.IsEmpty())
             {
-                CanvasWindow.Children.RemoveAt(count - 1);
-                _itrUndoRedo--;
-            }
+                _stackShape.Push(_listShape.Remove());
+                int count = CanvasWindow.Children.Count;
+                if (count > 0)
+                {
+                    CanvasWindow.Children.RemoveAt(count - 1);
+                }
 
-            Test.Content = $"{_itrUndoRedo} _ {CanvasWindow.Children.Count}";
+            }
         }
 
         private void RedoButton_OnClickRedoButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (_itrUndoRedo > -1 && _itrUndoRedo < CanvasWindow.Children.Count)
+            if (_stackShape.IsEmpty())
             {
-                var toDraw = _redoShapesList[_itrUndoRedo];
+                _listShape.Add(_stackShape.Pop());
+                Shape toDraw = _listShape.Last();
                 toDraw.Draw(CanvasWindow, toDraw.FillColorBrush, toDraw.StrokeColorBrush, toDraw.StrokeThickness,
                     toDraw.Points);
-                _itrUndoRedo++;
             }
-
-            if (_itrUndoRedo == -1)
-            {
-                var toDraw = _redoShapesList[^1];
-                toDraw.Draw(CanvasWindow, toDraw.FillColorBrush, toDraw.StrokeColorBrush, toDraw.StrokeThickness,
-                    toDraw.Points);
-                _itrUndoRedo++;
-            }
-
-            Test.Content = $"{_itrUndoRedo} _ {CanvasWindow.Children.Count}";
         }
     }
 }
