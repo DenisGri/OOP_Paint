@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Media;
 using Paint_Lab.ShapesClasses;
 
 namespace Paint_Lab.Control
@@ -21,11 +20,11 @@ namespace Paint_Lab.Control
             return shape;
         }
 
-        public void Drawing(Canvas canvas, Brush fillColorBrush, Brush strokeColorBrush, double strokeThickness, PointCollection points)
+        public void Drawing(Canvas canvas)
         {
             foreach (var shape in _shapesList)
             {
-                shape.Draw(canvas, fillColorBrush, strokeColorBrush, strokeThickness, points);
+                shape.Draw(canvas, shape.FillColorBrush, shape.StrokeColorBrush, shape.StrokeThickness, shape.Points);
             }
         }
 

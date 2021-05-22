@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Paint_Lab.ShapesClasses;
 
 namespace Paint_Lab.Control
@@ -31,6 +32,10 @@ namespace Paint_Lab.Control
             return _shapesStack.Count != 0;
         }
 
+        public List<Shape> FillList()
+        {
+            return _shapesStack.ToList();
+        }
 
     }
 }

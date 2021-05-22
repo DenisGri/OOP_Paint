@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        Height="793"
+        Height="867"
         Width="1024"
         mc:Ignorable="d"
         Title="Paint">
-    <Grid HorizontalAlignment="Left" Height="756" Margin="10,14,0,0" VerticalAlignment="Top" Width="1024">
+    <Grid HorizontalAlignment="Left" Height="821" Margin="10,14,0,0" VerticalAlignment="Top" Width="1024">
         <Canvas x:Name="CanvasWindow" HorizontalAlignment="Left" Height="613" Margin="17,95,0,0" VerticalAlignment="Top" Width="980" Background="Transparent" MouseLeftButtonDown="CanvasWindow_MouseLeftButtonDown" MouseLeftButtonUp="CanvasWindow_MouseLeftButtonUp" MouseRightButtonDown="CanvasWindow_MouseRightButtonDown"/>
         <RadioButton x:Name="LineButton" Content="LineBrush" HorizontalAlignment="Left" Margin="40,10,0,0" VerticalAlignment="Top" Checked="LineButton_Checked"/>
         <RadioButton x:Name="EllipseButton" Content="EllipseBrush" HorizontalAlignment="Left" Margin="40,28,0,0" VerticalAlignment="Top" Checked="EllipseButton_Checked" />
@@ -36,8 +36,10 @@
         <Button x:Name="UndoButton" Content="Undo" HorizontalAlignment="Left" Margin="95,62,0,0" VerticalAlignment="Top" Width="75" Click="UndoButton_OnClick"/>
         <RadioButton x:Name="PolylineButton" Content="PolylineBrush" HorizontalAlignment="Left" Margin="140,44,0,0" VerticalAlignment="Top" Checked="PolylineButton_Checked"/>
         <Button x:Name="RedoButton" Content="Redo" HorizontalAlignment="Left" Margin="185,62,0,0" VerticalAlignment="Top" Width="75" Click="RedoButton_OnClickRedoButton_OnClick"/>
-        <Label x:Name="Test" Content="test" HorizontalAlignment="Left" Margin="20,720,0,0" VerticalAlignment="Top" Width="977"/>
+        <Label x:Name="Test" Content="test" HorizontalAlignment="Left" Margin="18,713,0,0" VerticalAlignment="Top" Width="978"/>
         <RadioButton x:Name="NullButton" Content="" HorizontalAlignment="Left" Margin="252,11,0,0" VerticalAlignment="Top" Width="33" IsChecked="True" Opacity="0"/>
+        <Button x:Name="SaveButton" Content="Сохранить рисунок" HorizontalAlignment="Left" Margin="20,744,0,0" VerticalAlignment="Top" Height="41" Width="112" Click="SaveButton_Click"/>
+        <Button x:Name="LoadButton" Content="Загрузить рисунок" HorizontalAlignment="Left" Margin="173,744,0,0" VerticalAlignment="Top" Height="41" Width="112" Click="LoadButton_Click" />
     </Grid>
 </Window>
 

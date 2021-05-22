@@ -6,14 +6,6 @@ namespace Paint_Lab.ShapesClasses
 {
     public class Polygon : Shape
     {
-        public PointCollection Points { get; set; }
-
-        public double StrokeThickness { get; set; }
-
-        public Brush FillColorBrush { get; set; }
-
-        public Brush StrokeColorBrush { get; set; }
-
         public override bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points)
         {

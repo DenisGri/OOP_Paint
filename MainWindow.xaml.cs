@@ -1,8 +1,13 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Microsoft.Win32;
 using Paint_Lab.Control;
 using Paint_Lab.ShapesClasses;
+using Newtonsoft.Json;
 
 namespace Paint_Lab
 {
@@ -16,6 +21,7 @@ namespace Paint_Lab
         private int _coordinatesItr;
         private readonly Undo _listShape;
         private readonly Redo _stackShape;
+        private string FilePath;
 
         public MainWindow()
         {
@@ -51,49 +57,84 @@ namespace Paint_Lab
         {
             CanvasWindow.Children.Clear();
         }
-        
+
         private void CanvasWindow_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            _coordinates.Add(e.GetPosition(CanvasWindow));
-            _stackShape.Push(_currentShape);
+            if (_currentShape != null)
+            {
+                _coordinates.Add(e.GetPosition(CanvasWindow));
+                _stackShape.Push(_currentShape);
+            }
+        }
+
+        private void SerializeShapes(string folder)
+        {
+            var jsonString = JsonConvert.SerializeObject(_stackShape.FillList());
+            File.WriteAllText(folder, jsonString);
+        }
+
+        private void DeSerializeShapes(string filename)
+        {
+            try
+            {
+                var jsonString = File.ReadAllText(filename);
+                var shapesObjects = JsonConvert.DeserializeObject<List<PolygonLine>>(jsonString);
+                var shapes = new List<Shape>();
+                for (int i = 0; i < shapesObjects?.Count; i++)
+                {
+                    Shape tempShape = shapesObjects[i];
+                    shapes.Add(tempShape);
+                }
+
+                for (int i = 0; i < shapes?.Count; i++)
+                {
+                    _stackShape.Push(shapes[i]);
+                    _listShape.Add(shapes[i]);
+                }
+
+                _listShape.Drawing(CanvasWindow);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Невозможно прочитать сожержимое файла:\n Файл поврежден!", "Alert",
+                    MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void CanvasWindow_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _coordinates.Add(e.GetPosition(CanvasWindow));
-            PointCollection newCollection = new PointCollection(_coordinates.Count - _coordinatesItr);
-            for (int i = _coordinatesItr; i < _coordinates.Count; i++)
-            {
-                newCollection.Add(_coordinates[i]);
-            }
-
-           
             if (_currentShape != null)
             {
+                _coordinates.Add(e.GetPosition(CanvasWindow));
+                PointCollection newCollection = new PointCollection(_coordinates.Count - _coordinatesItr);
+                for (int i = _coordinatesItr; i < _coordinates.Count; i++)
+                {
+                    newCollection.Add(_coordinates[i]);
+                }
+
                 _currentShape.Points = newCollection;
                 _currentShape.FillColorBrush = ColorPickerFill.Background;
                 _currentShape.StrokeColorBrush = ColorPickerBorder.Background;
                 _currentShape.StrokeThickness = ThicknessSlider.Value;
+                _currentShape.ShapeType = _currentShape.GetType();
                 _listShape.Add(_currentShape);
+
+                var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background,
+                    ColorPickerBorder.Background, ThicknessSlider.Value, newCollection);
+
+                if ((bool) isRightClick)
+                {
+                    CanvasWindow_MouseRightButtonDown(sender, e);
+                }
             }
-
-            var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background,
-                ColorPickerBorder.Background, ThicknessSlider.Value, newCollection);
-
-            if (isRightClick != null && (bool) isRightClick)
-            {
-                CanvasWindow_MouseRightButtonDown(sender, e);
-            }
-
         }
-
 
         private void CanvasWindow_MouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
             _currentShape = null;
             NullButton.IsChecked = true;
             _coordinatesItr = _coordinates.Count;
-        } 
+        }
 
         private void LineButton_Checked(object sender, RoutedEventArgs e)
         {
@@ -130,7 +171,6 @@ namespace Paint_Lab
                 {
                     CanvasWindow.Children.RemoveAt(count - 1);
                 }
-
             }
         }
 
@@ -143,6 +183,48 @@ namespace Paint_Lab
                 toDraw.Draw(CanvasWindow, toDraw.FillColorBrush, toDraw.StrokeColorBrush, toDraw.StrokeThickness,
                     toDraw.Points);
             }
+        }
+
+        private bool SaveFileDialog()
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "Json documents (.json)|*.json",
+                AddExtension = true,
+                DefaultExt = ".json",
+                CreatePrompt = true,
+                OverwritePrompt = true
+            };
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                FilePath = saveFileDialog.FileName;
+                return true;
+            }
+
+            return false;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            var folderName = @"d:\Двач\Практика\Paint_OOP\1.json";
+            SaveFileDialog();
+
+            SerializeShapes(FilePath);
+        }
+
+        private void LoadButton_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDlg = new Microsoft.Win32.OpenFileDialog
+            {
+                Multiselect = false, DefaultExt = ".json", Filter = "Json documents (.json)|*.json"
+            };
+
+            var result = openFileDlg.ShowDialog();
+            if (result != true) return;
+            Test.Content = openFileDlg.FileName;
+            var fileName = openFileDlg.FileName;
+
+            DeSerializeShapes(fileName);
         }
     }
 }
