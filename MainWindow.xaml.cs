@@ -21,7 +21,9 @@ namespace Paint_Lab
         private int _coordinatesItr;
         private readonly Undo _listShape;
         private readonly Redo _stackShape;
-        private string FilePath;
+        private string _filePath;
+
+
 
         public MainWindow()
         {
@@ -161,6 +163,8 @@ namespace Paint_Lab
             _currentShape = new PolygonLine();
         }
 
+        
+
         private void UndoButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (_listShape.IsEmpty())
@@ -197,7 +201,7 @@ namespace Paint_Lab
             };
             if (saveFileDialog.ShowDialog() == true)
             {
-                FilePath = saveFileDialog.FileName;
+                _filePath = saveFileDialog.FileName;
                 return true;
             }
 
@@ -209,7 +213,7 @@ namespace Paint_Lab
             var folderName = @"d:\Двач\Практика\Paint_OOP\1.json";
             SaveFileDialog();
 
-            SerializeShapes(FilePath);
+            SerializeShapes(_filePath);
         }
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)

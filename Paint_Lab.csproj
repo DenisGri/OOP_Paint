@@ -11,8 +11,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="BetterFolderBrowser" Version="1.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TrapezePlugin\TrapezePlugin.csproj" />
   </ItemGroup>
 
 </Project>

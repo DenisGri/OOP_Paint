@@ -34,5 +34,6 @@ namespace Paint_Lab.ShapesClasses
 
         public abstract bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points);
+
     }
 }
