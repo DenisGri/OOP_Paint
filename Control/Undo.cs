@@ -9,6 +9,11 @@ namespace Paint_Lab.Control
     {
         private readonly List<Shape> _shapesList;
 
+        public Undo()
+        {
+            _shapesList = new List<Shape>();
+        }
+
         public void Add(Shape shape)
         {
             _shapesList.Add(shape);
@@ -23,19 +28,12 @@ namespace Paint_Lab.Control
         public void Drawing(Canvas canvas)
         {
             foreach (var shape in _shapesList)
-            {
                 shape.Draw(canvas, shape.FillColorBrush, shape.StrokeColorBrush, shape.StrokeThickness, shape.Points);
-            }
-        }
-
-        public Undo()
-        {
-            _shapesList = new List<Shape>();
         }
 
         public Shape Remove()
         {
-            Shape temp = _shapesList.Last();
+            var temp = _shapesList.Last();
             _shapesList.Remove(_shapesList.Last());
             return temp;
         }

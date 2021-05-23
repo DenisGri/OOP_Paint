@@ -9,13 +9,13 @@ namespace Paint_Lab.ShapesClasses
         public override bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points)
         {
-            var polygon = new System.Windows.Shapes.Polygon()
+            var polygon = new System.Windows.Shapes.Polygon
             {
                 Points = points,
                 Fill = fillColor,
                 VerticalAlignment = VerticalAlignment.Center,
                 Stroke = strokeColor,
-                StrokeThickness = strokeThickness,
+                StrokeThickness = strokeThickness
             };
             canvas.Children.Add(polygon);
 

@@ -5,6 +5,6 @@ namespace Paint_Lab.Interfaces
 {
     public interface IShape
     {
-         bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness, PointCollection points);
+        bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness, PointCollection points);
     }
 }

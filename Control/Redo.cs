@@ -7,6 +7,7 @@ namespace Paint_Lab.Control
     public class Redo
     {
         private readonly Stack<Shape> _shapesStack;
+
         public Redo()
         {
             _shapesStack = new Stack<Shape>();
@@ -36,6 +37,5 @@ namespace Paint_Lab.Control
         {
             return _shapesStack.ToList();
         }
-
     }
 }

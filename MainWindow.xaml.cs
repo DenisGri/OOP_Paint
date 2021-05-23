@@ -5,24 +5,23 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using Paint_Lab.Control;
 using Paint_Lab.ShapesClasses;
-using Newtonsoft.Json;
 
 namespace Paint_Lab
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow
     {
         private readonly PointCollection _coordinates = new(1000);
-        private Shape _currentShape;
-        private int _coordinatesItr;
         private readonly Undo _listShape;
         private readonly Redo _stackShape;
+        private int _coordinatesItr;
+        private Shape _currentShape;
         private string _filePath;
-
 
 
         public MainWindow()
@@ -82,13 +81,13 @@ namespace Paint_Lab
                 var jsonString = File.ReadAllText(filename);
                 var shapesObjects = JsonConvert.DeserializeObject<List<PolygonLine>>(jsonString);
                 var shapes = new List<Shape>();
-                for (int i = 0; i < shapesObjects?.Count; i++)
+                for (var i = 0; i < shapesObjects?.Count; i++)
                 {
                     Shape tempShape = shapesObjects[i];
                     shapes.Add(tempShape);
                 }
 
-                for (int i = 0; i < shapes?.Count; i++)
+                for (var i = 0; i < shapes?.Count; i++)
                 {
                     _stackShape.Push(shapes[i]);
                     _listShape.Add(shapes[i]);
@@ -98,7 +97,7 @@ namespace Paint_Lab
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Невозможно прочитать сожержимое файла:\n Файл поврежден!", "Alert",
+                MessageBox.Show("Невозможно прочитать сожержимое файла:\n Файл поврежден!", "Alert",
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
@@ -108,11 +107,8 @@ namespace Paint_Lab
             if (_currentShape != null)
             {
                 _coordinates.Add(e.GetPosition(CanvasWindow));
-                PointCollection newCollection = new PointCollection(_coordinates.Count - _coordinatesItr);
-                for (int i = _coordinatesItr; i < _coordinates.Count; i++)
-                {
-                    newCollection.Add(_coordinates[i]);
-                }
+                var newCollection = new PointCollection(_coordinates.Count - _coordinatesItr);
+                for (var i = _coordinatesItr; i < _coordinates.Count; i++) newCollection.Add(_coordinates[i]);
 
                 _currentShape.Points = newCollection;
                 _currentShape.FillColorBrush = ColorPickerFill.Background;
@@ -124,10 +120,7 @@ namespace Paint_Lab
                 var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background,
                     ColorPickerBorder.Background, ThicknessSlider.Value, newCollection);
 
-                if ((bool) isRightClick)
-                {
-                    CanvasWindow_MouseRightButtonDown(sender, e);
-                }
+                if ((bool) isRightClick) CanvasWindow_MouseRightButtonDown(sender, e);
             }
         }
 
@@ -163,18 +156,14 @@ namespace Paint_Lab
             _currentShape = new PolygonLine();
         }
 
-        
 
         private void UndoButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (_listShape.IsEmpty())
             {
                 _stackShape.Push(_listShape.Remove());
-                int count = CanvasWindow.Children.Count;
-                if (count > 0)
-                {
-                    CanvasWindow.Children.RemoveAt(count - 1);
-                }
+                var count = CanvasWindow.Children.Count;
+                if (count > 0) CanvasWindow.Children.RemoveAt(count - 1);
             }
         }
 
@@ -183,7 +172,7 @@ namespace Paint_Lab
             if (_stackShape.IsEmpty())
             {
                 _listShape.Add(_stackShape.Pop());
-                Shape toDraw = _listShape.Last();
+                var toDraw = _listShape.Last();
                 toDraw.Draw(CanvasWindow, toDraw.FillColorBrush, toDraw.StrokeColorBrush, toDraw.StrokeThickness,
                     toDraw.Points);
             }
@@ -191,7 +180,7 @@ namespace Paint_Lab
 
         private bool SaveFileDialog()
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog
+            var saveFileDialog = new SaveFileDialog
             {
                 Filter = "Json documents (.json)|*.json",
                 AddExtension = true,
@@ -218,7 +207,7 @@ namespace Paint_Lab
 
         private void LoadButton_Click(object sender, RoutedEventArgs e)
         {
-            var openFileDlg = new Microsoft.Win32.OpenFileDialog
+            var openFileDlg = new OpenFileDialog
             {
                 Multiselect = false, DefaultExt = ".json", Filter = "Json documents (.json)|*.json"
             };

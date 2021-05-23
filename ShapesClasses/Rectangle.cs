@@ -5,7 +5,6 @@ namespace Paint_Lab.ShapesClasses
 {
     public class Rectangle : Shape
     {
-
         public override bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points)
         {
@@ -13,11 +12,11 @@ namespace Paint_Lab.ShapesClasses
             var endPoints = points[^1];
             var rectangle = new System.Windows.Shapes.Rectangle
             {
-                Width = endPoints.X >= startPoint.X ? (endPoints.X - startPoint.X) : (startPoint.X - endPoints.X),
-                Height = endPoints.Y >= startPoint.Y ? (endPoints.Y - startPoint.Y) : (startPoint.Y - endPoints.Y),
+                Width = endPoints.X >= startPoint.X ? endPoints.X - startPoint.X : startPoint.X - endPoints.X,
+                Height = endPoints.Y >= startPoint.Y ? endPoints.Y - startPoint.Y : startPoint.Y - endPoints.Y,
                 Fill = fillColor,
                 Stroke = strokeColor,
-                StrokeThickness = strokeThickness,
+                StrokeThickness = strokeThickness
             };
 
             rectangle.SetValue(Canvas.LeftProperty, endPoints.X >= startPoint.X ? startPoint.X : endPoints.X);

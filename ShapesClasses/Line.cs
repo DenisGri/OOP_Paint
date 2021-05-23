@@ -18,7 +18,7 @@ namespace Paint_Lab.ShapesClasses
                 VerticalAlignment = VerticalAlignment.Center,
                 Fill = fillColor,
                 Stroke = strokeColor,
-                StrokeThickness = strokeThickness,
+                StrokeThickness = strokeThickness
             };
             canvas.Children.Add(line);
 
