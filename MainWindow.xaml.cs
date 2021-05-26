@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -22,7 +23,6 @@ namespace Paint_Lab
         private int _coordinatesItr;
         private Shape _currentShape;
         private string _filePath;
-
 
         public MainWindow()
         {
@@ -70,7 +70,10 @@ namespace Paint_Lab
 
         private void SerializeShapes(string folder)
         {
-            var jsonString = JsonConvert.SerializeObject(_stackShape.FillList());
+            var jsonString = JsonConvert.SerializeObject(_stackShape.FillList(), new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
             File.WriteAllText(folder, jsonString);
         }
 
@@ -79,11 +82,14 @@ namespace Paint_Lab
             try
             {
                 var jsonString = File.ReadAllText(filename);
-                var shapesObjects = JsonConvert.DeserializeObject<List<PolygonLine>>(jsonString);
+                var shapesObjects = JsonConvert.DeserializeObject<List<Shape>>(jsonString, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                });
                 var shapes = new List<Shape>();
                 for (var i = 0; i < shapesObjects?.Count; i++)
                 {
-                    Shape tempShape = shapesObjects[i];
+                    var tempShape = shapesObjects[i];
                     shapes.Add(tempShape);
                 }
 
@@ -156,7 +162,6 @@ namespace Paint_Lab
             _currentShape = new PolygonLine();
         }
 
-
         private void UndoButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (_listShape.IsEmpty())
@@ -199,7 +204,6 @@ namespace Paint_Lab
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var folderName = @"d:\Двач\Практика\Paint_OOP\1.json";
             SaveFileDialog();
 
             SerializeShapes(_filePath);
