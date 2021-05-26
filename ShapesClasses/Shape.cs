@@ -14,7 +14,6 @@ namespace Paint_Lab.ShapesClasses
             StrokeThickness = strokeThickness;
             FillColorBrush = fillColorBrush;
             StrokeColorBrush = strokeColorBrush;
-            ShapeType = shapeType;
         }
 
         protected Shape()
@@ -29,15 +28,9 @@ namespace Paint_Lab.ShapesClasses
 
         public Brush StrokeColorBrush { get; set; }
 
-        public Type ShapeType { get; set; }
 
         public abstract bool Draw(Canvas canvas, Brush fillColor, Brush strokeColor, double strokeThickness,
             PointCollection points);
 
-        public Shape CreateShape(Type shapeType)
-        {
-
-            return null;
-        }
     }
 }

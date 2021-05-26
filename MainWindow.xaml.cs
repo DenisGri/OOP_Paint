@@ -120,7 +120,6 @@ namespace Paint_Lab
                 _currentShape.FillColorBrush = ColorPickerFill.Background;
                 _currentShape.StrokeColorBrush = ColorPickerBorder.Background;
                 _currentShape.StrokeThickness = ThicknessSlider.Value;
-                _currentShape.ShapeType = _currentShape.GetType();
                 _listShape.Add(_currentShape);
 
                 var isRightClick = _currentShape?.Draw(CanvasWindow, ColorPickerFill.Background,
