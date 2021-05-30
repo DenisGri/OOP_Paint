@@ -7,83 +7,84 @@
         Title="Paint" HorizontalAlignment="Center" VerticalAlignment="Center">
     <Grid HorizontalAlignment="Left" Margin="10,14,0,0" VerticalAlignment="Top" Width="1313">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="437*"/>
-            <ColumnDefinition Width="113*"/>
-            <ColumnDefinition Width="26*"/>
+            <ColumnDefinition Width="996*"/>
+            <ColumnDefinition Width="296*"/>
+            <ColumnDefinition Width="21*"/>
         </Grid.ColumnDefinitions>
         <Canvas x:Name="CanvasWindow" HorizontalAlignment="Left" Height="613" Margin="27,95,0,0"
                 VerticalAlignment="Top" Width="1256" Background="Transparent"
                 MouseLeftButtonDown="CanvasWindow_MouseLeftButtonDown"
                 MouseLeftButtonUp="CanvasWindow_MouseLeftButtonUp"
-                MouseRightButtonDown="CanvasWindow_MouseRightButtonDown" Grid.ColumnSpan="3" />
+                MouseRightButtonDown="CanvasWindow_MouseRightButtonDown" Grid.ColumnSpan="2" />
         <RadioButton Grid.Column="0" x:Name="LineButton" Content="LineBrush" HorizontalAlignment="Left" Margin="40,10,0,0"
-                     VerticalAlignment="Top" Checked="LineButton_Checked" />
+                     VerticalAlignment="Top" Checked="LineButton_Checked" Height="15" Width="70" />
         <RadioButton Grid.Column="0" x:Name="EllipseButton" Content="EllipseBrush" HorizontalAlignment="Left" Margin="40,28,0,0"
-                     VerticalAlignment="Top" Checked="EllipseButton_Checked" />
+                     VerticalAlignment="Top" Checked="EllipseButton_Checked" Height="15" Width="82" />
         <RadioButton Grid.Column="0" x:Name="PolygonButton" Content="PolygonBrush" HorizontalAlignment="Left" Margin="140,10,0,0"
-                     VerticalAlignment="Top" Checked="PolygonButton_Checked" />
+                     VerticalAlignment="Top" Checked="PolygonButton_Checked" Height="15" Width="92" />
         <RadioButton Grid.Column="0" x:Name="RectangleButton" Content="RectangleBrush" HorizontalAlignment="Left" Margin="140,28,0,0"
-                     VerticalAlignment="Top" Checked="RectangleButton_Checked" />
+                     VerticalAlignment="Top" Checked="RectangleButton_Checked" Height="15" Width="101" />
         <Border Grid.Column="0" x:Name="ColorPickerFill" BorderBrush="Black" Background="Black" BorderThickness="1"
                 HorizontalAlignment="Left" Height="64" Margin="305,10,0,0" VerticalAlignment="Top" Width="65" />
         <Slider Grid.Column="0" x:Name="RedSliderFill" HorizontalAlignment="Left" Margin="415,10,0,0" VerticalAlignment="Top"
                 Width="110" Maximum="255" ValueChanged="Slider_ValueChanged_Fill" SmallChange="1"
-                AutoToolTipPlacement="BottomRight" />
-        <Slider x:Name="GreenSliderFill" HorizontalAlignment="Left" Margin="415,33,0,0" VerticalAlignment="Top"
+                AutoToolTipPlacement="BottomRight" Height="18" />
+        <Slider Grid.Column="0" x:Name="GreenSliderFill" HorizontalAlignment="Left" Margin="415,33,0,0" VerticalAlignment="Top"
                 Width="110" Maximum="255" ValueChanged="Slider_ValueChanged_Fill" SmallChange="1"
-                AutoToolTipPlacement="BottomRight" />
+                AutoToolTipPlacement="BottomRight" Height="18" />
         <Slider Grid.Column="0" x:Name="BlueSliderFill" HorizontalAlignment="Left" Margin="415,56,0,0" VerticalAlignment="Top"
                 Width="110" Maximum="255" ValueChanged="Slider_ValueChanged_Fill" SmallChange="1"
-                AutoToolTipPlacement="BottomRight" />
+                AutoToolTipPlacement="BottomRight" Height="18" />
         <Label Grid.Column="0" Content="R&#xD;" HorizontalAlignment="Left" Margin="383,5,0,0" VerticalAlignment="Top" Height="25"
-               RenderTransformOrigin="0.588,0.619" />
+               RenderTransformOrigin="0.588,0.619" Width="17" />
         <Label Grid.Column="0" Content="G&#xA;" HorizontalAlignment="Left" Margin="383,27,0,0" VerticalAlignment="Top" Height="25"
-               RenderTransformOrigin="0.588,0.619" />
+               RenderTransformOrigin="0.588,0.619" Width="18" />
         <Label Grid.Column="0" Content="B&#xA;" HorizontalAlignment="Left" Margin="383,52,0,0" VerticalAlignment="Top" Height="25"
-               RenderTransformOrigin="0.588,0.619" />
+               RenderTransformOrigin="0.588,0.619" Width="17" />
         <Border Grid.Column="0" x:Name="ColorPickerBorder" BorderBrush="Black" Background="Black" BorderThickness="1"
                 HorizontalAlignment="Left" Height="64" Margin="542,10,0,0" VerticalAlignment="Top" Width="65" />
         <Slider Grid.Column="0" x:Name="RedSliderBorder" HorizontalAlignment="Left" Margin="652,10,0,0" VerticalAlignment="Top"
                 Width="110" Maximum="255" ValueChanged="Slider_ValueChanged_Border" SmallChange="1"
-                AutoToolTipPlacement="BottomRight" />
+                AutoToolTipPlacement="BottomRight" Height="18" />
         <Slider Grid.Column="0" x:Name="GreenSliderBorder" HorizontalAlignment="Left" Margin="652,33,0,0" VerticalAlignment="Top"
                 Width="110" Maximum="255" ValueChanged="Slider_ValueChanged_Border" SmallChange="1"
-                AutoToolTipPlacement="BottomRight" />
+                AutoToolTipPlacement="BottomRight" Height="18" />
         <Slider Grid.Column="0" x:Name="BlueSliderBorder" HorizontalAlignment="Left" Margin="652,56,0,0" VerticalAlignment="Top"
                 Width="110" Maximum="255" ValueChanged="Slider_ValueChanged_Border" SmallChange="1"
-                AutoToolTipPlacement="BottomRight" />
+                AutoToolTipPlacement="BottomRight" Height="18" />
         <Label Grid.Column="0" Content="R&#xA;" HorizontalAlignment="Left" Margin="620,5,0,0" VerticalAlignment="Top" Height="25"
-               RenderTransformOrigin="0.588,0.619" />
+               RenderTransformOrigin="0.588,0.619" Width="17" />
         <Label Grid.Column="0" Content="G&#xA;" HorizontalAlignment="Left" Margin="620,27,0,0" VerticalAlignment="Top" Height="25"
-               RenderTransformOrigin="0.588,0.619" />
+               RenderTransformOrigin="0.588,0.619" Width="18" />
         <Label Grid.Column="0" Content="B&#xA;" HorizontalAlignment="Left" Margin="620,52,0,0" VerticalAlignment="Top" Height="25"
-               RenderTransformOrigin="0.588,0.619" />
-        <Line x:Name="ThicknessLine" X1="800" Y1="40" X2="900" Y2="40" Stroke="Black" StrokeThickness="1" Grid.ColumnSpan="3"
-              Grid.Column="0" Margin="-32,0,32,0" />
+               RenderTransformOrigin="0.588,0.619" Width="17" />
+        <Line x:Name="ThicknessLine" X1="800" Y1="40" X2="900" Y2="40" Stroke="Black" StrokeThickness="1" Grid.ColumnSpan="2"
+              Grid.Column="0" Margin="-32,0,11,0" />
         <Slider Grid.Column="0" x:Name="ThicknessSlider" HorizontalAlignment="Left" Margin="884,0,0,0" VerticalAlignment="Top"
                 Width="20" Orientation="Vertical" Height="72" SmallChange="1" Maximum="50"
                 AutoToolTipPlacement="BottomRight" ValueChanged="ThicknessSlider_ValueChanged" Value="1" />
-        <Button x:Name="DrawButton" Content="Clear" HorizontalAlignment="Left" Margin="20,62,0,0"
-                VerticalAlignment="Top" Width="55" Click="DrawButton_Click" />
-        <Label Grid.Column="0" Content="Fill" HorizontalAlignment="Left" Margin="325,69,0,0" VerticalAlignment="Top" />
-        <Label Grid.Column="0" Content="Border" HorizontalAlignment="Left" Margin="550,69,0,0" VerticalAlignment="Top" />
+        <Button Grid.Column="0" x:Name="DrawButton" Content="Clear" HorizontalAlignment="Left" Margin="20,62,0,0"
+                VerticalAlignment="Top" Width="55" Click="DrawButton_Click" Height="20" />
+        <Label Grid.Column="0" Content="Fill" HorizontalAlignment="Left" Margin="325,69,0,0" VerticalAlignment="Top" Height="26" Width="25" />
+        <Label Grid.Column="0" Content="Border" HorizontalAlignment="Left" Margin="550,69,0,0" VerticalAlignment="Top" Height="26" Width="46" />
         <Button Grid.Column="0" x:Name="UndoButton" Content="Undo" HorizontalAlignment="Left" Margin="95,62,0,0"
-                VerticalAlignment="Top" Width="75" Click="UndoButton_OnClick" />
+                VerticalAlignment="Top" Width="75" Click="UndoButton_OnClick" Height="20" />
         <RadioButton Grid.Column="0" x:Name="PolylineButton" Content="PolylineBrush" HorizontalAlignment="Left" Margin="140,44,0,0"
-                     VerticalAlignment="Top" Checked="PolylineButton_Checked" />
+                     VerticalAlignment="Top" Checked="PolylineButton_Checked" Height="15" Width="90" />
         <Button Grid.Column="0" x:Name="RedoButton" Content="Redo" HorizontalAlignment="Left" Margin="185,62,0,0"
-                VerticalAlignment="Top" Width="75" Click="RedoButton_OnClickRedoButton_OnClick" />
+                VerticalAlignment="Top" Width="75" Click="RedoButton_OnClickRedoButton_OnClick" Height="20" />
         <Label x:Name="Test" Content="test" HorizontalAlignment="Left" Margin="18,713,0,0" VerticalAlignment="Top"
-               Width="978" Grid.ColumnSpan="2" Grid.Column="0" />
+               Width="978" Grid.Column="0" Height="26" />
         <RadioButton Grid.Column="0" x:Name="NullButton" Content="" HorizontalAlignment="Left" Margin="252,11,0,0"
-                     VerticalAlignment="Top" Width="33" IsChecked="True" Opacity="0" />
-        <Button x:Name="SaveButton" Content="Сохранить&#xD;&#xA;рисунок" HorizontalAlignment="Left" Margin="94,16,0,0"
-                VerticalAlignment="Top" Height="41" Width="80" Click="SaveButton_Click" Grid.Column="1" />
-        <Button x:Name="LoadButton" Content="Загрузить&#xD;&#xA;рисунок" HorizontalAlignment="Left" Margin="196,16,0,0"
-                VerticalAlignment="Top" Height="41" Width="81" Click="LoadButton_Click" Grid.ColumnSpan="2" Grid.Column="1" />
+                     VerticalAlignment="Top" Width="33" IsChecked="True" Opacity="0" Height="15" />
+        <Button x:Name="SaveButton" Content="Сохранить&#xD;&#xA;рисунок" HorizontalAlignment="Left" Margin="113,16,0,0"
+                VerticalAlignment="Top" Height="40" Width="80" Click="SaveButton_Click" Grid.Column="1" />
+        <Button x:Name="LoadButton" Content="Загрузить&#xD;&#xA;рисунок" HorizontalAlignment="Left" Margin="206,16,0,0"
+                VerticalAlignment="Top" Height="40" Width="81" Click="LoadButton_Click" Grid.Column="1" />
         <RadioButton Grid.Column="0" x:Name="PluginButton" Content="PluginBrush" HorizontalAlignment="Left" Margin="40,45,0,0"
-                     VerticalAlignment="Top" Checked="PluginButton_Checked" />
-        <Button x:Name="LoadPlugin" Content="Загрузить&#xD;&#xA;плагин" HorizontalAlignment="Left" Margin="977,15,0,0"
-            VerticalAlignment="Top" Height="41" Width="80" Grid.ColumnSpan="2" Grid.Column="0" Click="LoadPlugin_Click" />
+                     VerticalAlignment="Top" Checked="PluginButton_Checked" Height="15" Width="82" />
+        <Button x:Name="LoadPlugin" Content="Загрузить&#xD;&#xA;плагин" HorizontalAlignment="Left" Margin="21,16,0,0"
+            VerticalAlignment="Top" Height="40" Width="81" Grid.Column="1" Click="LoadPlugin_Click" />
+        <ListBox x:Name="PluginListBox" Margin="925,0,287,649" Grid.ColumnSpan="2" Grid.Column="0" SelectionChanged="PluginListBox_SelectionChanged" />
     </Grid>
 </Window>

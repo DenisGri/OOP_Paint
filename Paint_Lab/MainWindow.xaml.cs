@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using BaseClassesPlugin;
@@ -26,6 +27,8 @@ namespace Paint_Lab
         private Shape _currentShape;
         private string _filePath;
         private Assembly _assembly;
+        private readonly List<Assembly> _assemblies = new List<Assembly>(50);
+        private Type _currenType;
 
         public MainWindow()
         {
@@ -73,10 +76,8 @@ namespace Paint_Lab
 
         private void SerializeShapes(string folder)
         {
-            var jsonString = JsonConvert.SerializeObject(_stackShape.FillList(), new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.All
-            });
+            var jsonString = JsonConvert.SerializeObject(_stackShape.FillList(),
+                new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
             File.WriteAllText(folder, jsonString);
         }
 
@@ -85,10 +86,8 @@ namespace Paint_Lab
             try
             {
                 var jsonString = File.ReadAllText(filename);
-                var shapesObjects = JsonConvert.DeserializeObject<List<Shape>>(jsonString, new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.All
-                });
+                var shapesObjects = JsonConvert.DeserializeObject<List<Shape>>(jsonString,
+                    new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All});
                 var shapes = new List<Shape>();
                 for (var i = 0; i < shapesObjects?.Count; i++)
                 {
@@ -166,15 +165,22 @@ namespace Paint_Lab
 
         private void PluginButton_Checked(object sender, RoutedEventArgs e)
         {
-            if (_assembly == null) return;
+            try
+            {
+                if (_assembly == null) return;
 
-            var type = _assembly.ExportedTypes.First();
+                var type = _assembly.ExportedTypes.First();
 
-            var obj = Activator.CreateInstance(type);
+                var obj = Activator.CreateInstance(type);
 
-            _currentShape = (Shape)obj;
+                _currentShape = (Shape) obj;
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show("Выбран неправильный плагин!");
+            }
         }
-            
+
         private void UndoButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (_listShape.IsEmpty())
@@ -250,6 +256,42 @@ namespace Paint_Lab
             var fileName = openFileDlg.FileName;
 
             _assembly = AssemblyClass.ConnectAsm(fileName);
+            if (_assembly != null)
+            {
+                _assemblies.Add(_assembly);
+                FillComboBox();
+            }
         }
+
+        private void FillComboBox()
+        {
+            PluginListBox.Items.Clear();
+            foreach (var t in _assemblies)
+            {
+                PluginListBox.Items.Add(t.ExportedTypes.First());
+            }
+        }
+
+        private void PluginListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (PluginListBox.SelectedIndex != -1)
+            {
+                try
+                {
+                    _currenType = (Type)PluginListBox.SelectedItem;
+                    var obj = Activator.CreateInstance(_currenType);
+                    _currentShape = (Shape)obj;
+                    NullButton.IsChecked = true;
+                }
+                catch (Exception exception)
+                {
+                    MessageBox.Show("Выбран неправильный плагин!");
+                }
+
+                PluginListBox.SelectedIndex = -1;
+            }
+
+        }
+
     }
 }
