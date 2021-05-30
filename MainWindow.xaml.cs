@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Accessibility;
 using BaseClassesPlugin;
 using Microsoft.Win32;
 using Newtonsoft.Json;
@@ -23,6 +26,7 @@ namespace Paint_Lab
         private int _coordinatesItr;
         private Shape _currentShape;
         private string _filePath;
+        private Assembly _assembly;
 
         public MainWindow()
         {
@@ -161,6 +165,17 @@ namespace Paint_Lab
             _currentShape = new PolygonLine();
         }
 
+        private void PluginButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (_assembly == null) return;
+
+            var type = _assembly.ExportedTypes.First();
+
+            var obj = Activator.CreateInstance(type);
+
+            _currentShape = (Shape)obj;
+        }
+            
         private void UndoButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (_listShape.IsEmpty())
@@ -221,6 +236,21 @@ namespace Paint_Lab
             var fileName = openFileDlg.FileName;
 
             DeSerializeShapes(fileName);
+        }
+
+        private void LoadPlugin_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDlg = new OpenFileDialog
+            {
+                Multiselect = false, DefaultExt = ".dll", Filter = "DLL documents (.dll)|*.dll"
+            };
+
+            var result = openFileDlg.ShowDialog();
+            if (result != true) return;
+            Test.Content = openFileDlg.FileName;
+            var fileName = openFileDlg.FileName;
+
+            _assembly = AssemblyClass.ConnectAsm(fileName);
         }
     }
 }

@@ -7,14 +7,7 @@ namespace Paint_Lab
     {
         public static Assembly ConnectAsm(string path)
         {
-            var assembly = Assembly.LoadFrom("BaseClassesPlugin.dll");
-            MessageBox.Show($"{assembly.FullName}");
-            var types = assembly.GetTypes();
-            foreach (var t in types)
-            {
-                MessageBox.Show($"{t.Name}");
-            }
-
+            var assembly = Assembly.LoadFrom($"{path}");
             return assembly;
         }
     }
