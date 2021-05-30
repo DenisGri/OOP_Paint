@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
+using BaseClassesPlugin;
 using Paint_Lab.ShapesClasses;
 
 namespace Paint_Lab.Control
